@@ -66,7 +66,7 @@ exports.setup = (app, server) ->
   io.sockets.on "connection", (socket) ->  
     socket.emit 'connect', 'yolo'
 
-exports.pubsub ->
+exports.pubsub = (app) ->
   url = require 'url'
   redis = require 'redis'
   redis.debug_mode = false
