@@ -11,7 +11,11 @@ module.exports = (app) ->
       req.subdomains.length is 1 and req.subdomains[0] is 'www')
       routeMvc('index', req, res, next)
     else
-      res.send subdomains: req.subdomains
+      switch req.subdomains[0]
+        when 'req' then routeMvc('req', req, res, next)
+        when 'res' then routeMvc('res', req, res, next)
+      else
+        routeMvc('reqres', req, res, next)
     
 
 # render the page based on controller
