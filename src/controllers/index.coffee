@@ -1,4 +1,4 @@
 # Just renders index.jade
 
-exports.index = (req, res) ->
+module.exports = (req, res) ->
     res.render 'index'
