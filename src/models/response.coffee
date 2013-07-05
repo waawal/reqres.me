@@ -1,4 +1,4 @@
-mongoose = require 'redis'
+redis = require 'redis'
 
 class Response
 
