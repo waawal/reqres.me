@@ -7,7 +7,8 @@
 module.exports = (app) ->
   
   app.all '/*', (req, res, next) ->
-    if not req.subdomains or (req.subdomains.length is 1 and req.subdomain[0] is 'www')
+    if not req.subdomains.length or (
+      req.subdomains.length is 1 and req.subdomain[0] is 'www')
       routeMvc('index', req, res, next)
     else
       res.send subdomains: req.subdomains
