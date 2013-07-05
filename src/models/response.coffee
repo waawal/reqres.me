@@ -1,4 +1,4 @@
-redis = require 'redis'
+realtime = require '../realtime'
 
 class Response
 
