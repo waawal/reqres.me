@@ -14,14 +14,11 @@ module.exports = (app) ->
       switch req.subdomains[0]
         when 'req' then routeMvc('req', req, res, next)
         when 'res' then routeMvc('res', req, res, next)
-      else
-        routeMvc('reqres', req, res, next)
+        else routeMvc('reqres', req, res, next)
     
 
 # render the page based on controller
 routeMvc = (controllerName, req, res, next) ->
-  controllerName = 'index' if not controllerName?
-  controller = null
   try
     controller = require "./controllers/" + controllerName
   catch e
