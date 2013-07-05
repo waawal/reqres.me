@@ -1,5 +1,6 @@
-mongoose = require 'redis'
+redis = require 'redis'
 
 class Request
+
 
 module.exports = Request
