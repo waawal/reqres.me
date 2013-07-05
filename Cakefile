@@ -1,11 +1,17 @@
-which   = require 'which'
-{spawn} = require 'child_process'
+fs            = require 'fs'
+wrench        = require 'wrench'
+{print}       = require 'util'
+which         = require 'which'
+{spawn, exec} = require 'child_process'
 
 # ANSI Terminal Colors
 bold  = '\x1B[0;1m'
 red   = '\x1B[0;31m'
 green = '\x1B[0;32m'
 reset = '\x1B[0m'
+
+log = (message, color, explanation) ->
+  console.log color + message + reset + ' ' + (explanation or '')
 
 # Compiles app.coffee and src directory to the .app directory
 build = (callback) ->
@@ -37,5 +43,5 @@ task 'dev', 'start dev env', ->
   supervisor.stderr.pipe process.stderr
   log 'Watching js files and running server', green
 
-task 'build' 'build the app', ->
+task 'build', 'build the app', ->
   build()
