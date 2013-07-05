@@ -1,9 +1,7 @@
-url = require 'url'
 express = require 'express'
 stylus = require 'stylus'
 assets = require 'connect-assets'
-redis = require 'redis'
-socketio = require 'socket.io'
+
 
 #### Basic application initialization
 # Create app instance.
@@ -13,8 +11,6 @@ app = express()
 config = require "./config"
 app.configure 'production', 'development', 'testing', ->
   config.setEnvironment app.settings.env
-
-redis.debug_mode = false
 
 app.disable('x-powered-by') # Sthealt!
 
@@ -52,37 +48,7 @@ server = require("http").createServer(app)
 # Define Port
 server.port = process.env.PORT or process.env.VMC_APP_PORT or 3000
 
-###
-Redis/socket.io Specific
-###
-
-io = socketio.listen(server)
-
-io.configure ->
-  io.set "transports", ["xhr-polling"]
-  io.set "polling duration", 10
-  io.set 'log level', 1
-
-redisURL = url.parse app.get('PUBSUB_URL')
-
-subscriber = redis.createClient redisURL.port, redisURL.hostname, no_ready_check: true
-subscriber.auth redisURL.auth.split(":")[1]
-
-publisher = redis.createClient redisURL.port, redisURL.hostname, no_ready_check: true
-publisher.auth redisURL.auth.split(":")[1]
-
-subscriber.subscribe "instagram"
-subscriber.subscribe "tweet"
-
-subscriber.on "message", (channel, message) ->
-  io.sockets.emit channel, message
-
-io.sockets.on "connection", (socket) ->
-  publisher.get "latest_instagram", (err, reply) ->
-    socket.emit 'instagram', reply
-  publisher.get "latest_tweet", (err, reply) ->
-    socket.emit 'tweet', reply
-
+require('./realtime').setup(app, server)
 
 #### Finalization
 # Initialize routes
