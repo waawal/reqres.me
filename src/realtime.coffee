@@ -71,11 +71,17 @@ url = require 'url'
   redis = require 'redis'
   redis.debug_mode = false
 
-createServiceSocket = (serviceUrl) ->
+createRedisService = (serviceUrl) ->
   redisURL = url.parse app.get(serviceUrl)
   client = redis.createClient redisURL.port, redisURL.hostname, no_ready_check: true
   client.auth redisURL.auth.split(":")[1]
   return client
+
+createPubSubConnection = ->
+  createRedisService('PUBSUB_URL')
+
+createRedisConnection = ->
+  createRedisService('KEY_STORE_URL')
 
 exports.pubsub = (app) ->
   #subscriber.subscribe "instagram"
