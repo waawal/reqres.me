@@ -36,3 +36,6 @@ task 'dev', 'start dev env', ->
   supervisor.stdout.pipe process.stdout
   supervisor.stderr.pipe process.stderr
   log 'Watching js files and running server', green
+
+task 'build' 'build the app', ->
+  build()
