@@ -48,7 +48,8 @@ server = require("http").createServer(app)
 # Define Port
 server.port = process.env.PORT or process.env.VMC_APP_PORT or 3000
 
-require('./realtime').setup(app, server)
+realtime = require './realtime'
+realtime.setup(app, server)
 
 #### Finalization
 # Initialize routes
