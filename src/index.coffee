@@ -44,19 +44,17 @@ app.set 'view engine', 'jade'
 # [Body parser middleware](http://www.senchalabs.org/connect/middleware-bodyParser.html) parses JSON or XML bodies into `req.body` object
 app.use express.bodyParser()
 
+#### Finalization
+# Initialize routes
+routes = require './routes'
+routes(app)
+
 server = require("http").createServer(app)
 # Define Port
 server.port = process.env.PORT or process.env.VMC_APP_PORT or 3000
 
 realtime = require './realtime'
 realtime.setup(app, server)
-
-#### Finalization
-# Initialize routes
-routes = require './routes'
-routes(app)
-
-
 
 # Export server
 module.exports = server
