@@ -8,22 +8,23 @@ exports.setEnvironment = (env) ->
       exports.DEBUG_WARN = true
       exports.DEBUG_ERROR = true
       exports.DEBUG_CLIENT = true
-      exports.DB_HOST = 'localhost'
-      exports.DB_PORT = "3306"
-      exports.DB_NAME = 'mvc_example'
-      exports.DB_USER = 'root'
-      exports.DB_PASS = 'root'
+      exports.KEY_STORE_URL = "redis://redis:redis@localhost:6379/"
+      exports.PUBSUB_URL = "redis://redis:redis@localhost:6379/"
 
     when "testing"
       exports.DEBUG_LOG = true
       exports.DEBUG_WARN = true
       exports.DEBUG_ERROR = true
       exports.DEBUG_CLIENT = true
+      exports.KEY_STORE_URL = "redis://redis:redis@localhost:6379/"
+      exports.PUBSUB_URL = "redis://redis:redis@localhost:6379/"
 
     when "production"
       exports.DEBUG_LOG = false
       exports.DEBUG_WARN = false
       exports.DEBUG_ERROR = true
       exports.DEBUG_CLIENT = false
+      exports.KEY_STORE_URL = process.env.REDISCLOUD_URL
+      exports.PUBSUB_URL = process.env.REDISTOGO_URL
     else
       console.log "environment #{env} not found"
