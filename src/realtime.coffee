@@ -56,36 +56,29 @@ exports.setup = (app, server) ->
   ###
   Redis/socket.io Specific
   ###
-
-  url = require 'url'
   socketio = require 'socket.io'
-  redis = require 'redis'
-  redis.debug_mode = false
-
   io = socketio.listen(server)
-
   io.configure ->
     io.set "transports", ["xhr-polling"]
     io.set "polling duration", 10
     io.set 'log level', 1
 
-  redisURL = url.parse app.get('PUBSUB_URL')
+  io.sockets.on "connection", (socket) ->  
+    socket.emit 'connect', 'yolo'
 
+exports.pubsub ->
+  url = require 'url'
+  redis = require 'redis'
+  redis.debug_mode = false
+
+  redisURL = url.parse app.get('PUBSUB_URL')
   subscriber = redis.createClient redisURL.port, redisURL.hostname, no_ready_check: true
   subscriber.auth redisURL.auth.split(":")[1]
 
   publisher = redis.createClient redisURL.port, redisURL.hostname, no_ready_check: true
   publisher.auth redisURL.auth.split(":")[1]
 
-  subscriber.subscribe "instagram"
-  subscriber.subscribe "tweet"
-
-  subscriber.on "message", (channel, message) ->
-    io.sockets.emit channel, message
-
-  io.sockets.on "connection", (socket) ->
-    publisher.get "latest_instagram", (err, reply) ->
-      socket.emit 'instagram', reply
-    publisher.get "latest_tweet", (err, reply) ->
-      socket.emit 'tweet', reply
-
+  #subscriber.subscribe "instagram"
+  #subscriber.subscribe "tweet"
+  #subscriber.on "message", (channel, message) ->
+  #  io.sockets.emit channel, message
