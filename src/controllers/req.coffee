@@ -1,6 +1,5 @@
-# Just renders index.jade
 
-exports.index = (req, res) ->
+module.exports = (req, res) ->
     res.send
       headers: req.headers
       query: req.query
