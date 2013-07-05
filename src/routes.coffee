@@ -7,7 +7,7 @@
 module.exports = (app) ->
   
   app.all '/*', (req, res, next) ->
-    if not req.subdomains or (
+    if not req.subdomains.length or (
       req.subdomains.length is 1 and req.subdomains[0] is 'www')
       routeMvc('index', req, res, next)
     else
@@ -15,7 +15,7 @@ module.exports = (app) ->
     
 
 # render the page based on controller
-routeMvc = (controllerName, methodName, req, res, next) ->
+routeMvc = (controllerName, req, res, next) ->
   controllerName = 'index' if not controllerName?
   controller = null
   try
