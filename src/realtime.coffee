@@ -67,18 +67,17 @@ exports.setup = (app, server) ->
   io.sockets.on "connection", (socket) ->  
     socket.emit 'connect', 'yolo'
 
-exports.pubsub = (app) ->
-  url = require 'url'
+url = require 'url'
   redis = require 'redis'
   redis.debug_mode = false
 
-  redisURL = url.parse app.get('PUBSUB_URL')
-  subscriber = redis.createClient redisURL.port, redisURL.hostname, no_ready_check: true
-  subscriber.auth redisURL.auth.split(":")[1]
+createServiceSocket = (serviceUrl) ->
+  redisURL = url.parse app.get(serviceUrl)
+  client = redis.createClient redisURL.port, redisURL.hostname, no_ready_check: true
+  client.auth redisURL.auth.split(":")[1]
+  return client
 
-  publisher = redis.createClient redisURL.port, redisURL.hostname, no_ready_check: true
-  publisher.auth redisURL.auth.split(":")[1]
-
+exports.pubsub = (app) ->
   #subscriber.subscribe "instagram"
   #subscriber.subscribe "tweet"
   #subscriber.on "message", (channel, message) ->
