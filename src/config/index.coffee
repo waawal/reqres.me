@@ -10,6 +10,7 @@ exports.setEnvironment = (env) ->
       exports.DEBUG_CLIENT = true
       exports.KEY_STORE_URL = "redis://redis:redis@localhost:6379/"
       exports.PUBSUB_URL = "redis://redis:redis@localhost:6379/"
+      exports.host = ['localhost']
 
     when "testing"
       exports.DEBUG_LOG = true
@@ -18,6 +19,7 @@ exports.setEnvironment = (env) ->
       exports.DEBUG_CLIENT = true
       exports.KEY_STORE_URL = "redis://redis:redis@localhost:6379/"
       exports.PUBSUB_URL = "redis://redis:redis@localhost:6379/"
+      exports.host = ['localhost']
 
     when "production"
       exports.DEBUG_LOG = false
@@ -26,5 +28,6 @@ exports.setEnvironment = (env) ->
       exports.DEBUG_CLIENT = false
       exports.KEY_STORE_URL = process.env.REDISCLOUD_URL
       exports.PUBSUB_URL = process.env.REDISTOGO_URL
+      exports.host = ['www.reqres.me', 'reqres.me']
     else
       console.log "environment #{env} not found"
