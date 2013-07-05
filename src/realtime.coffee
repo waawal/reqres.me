@@ -6,6 +6,7 @@ exports.setup = (app, server) ->
     
     # normalize path
     check = (req) ->
+      console.log app.get('host'), 'is the host'
       path is req.url.substr(0, path.length) and request.headers['host'] in app.get('host')
     engine = new engineio.Server(options)
     options = options or {}
