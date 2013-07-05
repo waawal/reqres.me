@@ -1,4 +1,4 @@
-exports.setup = (app, server)
+exports.setup = (app, server) ->
   engineio = require 'engine.io'
 
   # Monkeypatching so we won't serve socket.io on all subdomains
@@ -6,7 +6,7 @@ exports.setup = (app, server)
     
     # normalize path
     check = (req) ->
-      path is req.url.substr(0, path.length) and request.headers['host'] is app.get('host')
+      path is req.url.substr(0, path.length) and request.headers['host'] in app.get('host')
     engine = new engineio.Server(options)
     options = options or {}
     path = (options.path or "/engine.io").replace(/\/$/, "")
