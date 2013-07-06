@@ -71,7 +71,7 @@ exports.setup = (app, server) ->
   socketio = require 'socket.io'
   engine = engineio
 
-  socketio.Server::attach = (srv, opts) ->
+  socketio.listen = (srv, opts) ->
     if "function" is typeof srv
       msg = "You are trying to attach socket.io to an express" + "request handler function. Please pass a http.Server instance."
       throw new Error(msg)
