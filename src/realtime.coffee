@@ -1,5 +1,7 @@
 exports.setup = (app, server) ->
+  debug = require('debug')('socket.io:server')
   engineio = require 'engine.io'
+
 
   # Monkeypatching so we won't serve socket.io on all subdomains
   engineio.attach = (server, options) ->
@@ -70,8 +72,7 @@ exports.setup = (app, server) ->
 
   socketio = require 'socket.io'
   engine = engineio
-  debug = require('debug')('socket.io:server')
-  
+
   socketio.listen = (srv, opts) ->
     if "function" is typeof srv
       msg = "You are trying to attach socket.io to an express" + "request handler function. Please pass a http.Server instance."
