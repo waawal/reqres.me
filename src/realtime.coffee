@@ -53,20 +53,20 @@ exports.setup = (app, server) ->
 
     engine
 
-engineio.listen = (port, options, fn) ->
-  if "function" is typeof options
-    fn = options
-    options = {}
-  server = http.createServer((req, res) ->
-    res.writeHead 501
-    res.end "Not Implemented"
-  )
-  server.listen port, fn
-  
-  # create engine server
-  engine = engineio.attach(server, options)
-  engine.httpServer = server
-  engine
+  engineio.listen = (port, options, fn) ->
+    if "function" is typeof options
+      fn = options
+      options = {}
+    server = http.createServer((req, res) ->
+      res.writeHead 501
+      res.end "Not Implemented"
+    )
+    server.listen port, fn
+    
+    # create engine server
+    engine = engineio.attach(server, options)
+    engine.httpServer = server
+    engine
 
   ###
   Redis/socket.io Specific
@@ -81,7 +81,7 @@ engineio.listen = (port, options, fn) ->
   io.sockets.on "connection", (socket) ->  
     socket.emit 'connect', 'yolo'
 
-url = require 'url'
+  url = require 'url'
   redis = require 'redis'
   redis.debug_mode = false
 
