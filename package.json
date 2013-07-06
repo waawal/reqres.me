@@ -16,6 +16,7 @@
       "hiredis": "latest",
       "redis": "latest",
       "socket.io": "latest",
-      "engine.io": "latest"
+      "engine.io": "latest",
+      "debug": "latest"
   }
 }
