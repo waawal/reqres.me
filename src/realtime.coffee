@@ -64,7 +64,7 @@ engineio.listen = (port, options, fn) ->
   server.listen port, fn
   
   # create engine server
-  engine = exports.attach(server, options)
+  engine = engineio.attach(server, options)
   engine.httpServer = server
   engine
 
