@@ -68,10 +68,41 @@ exports.setup = (app, server) ->
     engine.httpServer = server
     engine
 
+  socketio = require 'socket.io'
+  engine = engineio
+
+  socketio::attach = (srv, opts) ->
+    if "function" is typeof srv
+      msg = "You are trying to attach socket.io to an express" + "request handler function. Please pass a http.Server instance."
+      throw new Error(msg)
+    if "number" is typeof srv
+      debug "creating http server and binding to %d", srv
+      port = srv
+      srv = http.Server((req, res) ->
+        res.writeHead 404
+        res.end()
+      )
+      srv.listen port
+    
+    # set engine.io path to `/socket.io`
+    opts = opts or {}
+    opts.path = opts.path or "/socket.io"
+    
+    # initialize engine
+    debug "creating engine.io instance with opts %j", opts
+    eio = engine.attach(srv, opts)
+    
+    # attach static file serving
+    @serve srv  if @_static
+    
+    # bind to engine events
+    @bind eio
+    this
+
   ###
   Redis/socket.io Specific
   ###
-  socketio = require 'socket.io'
+  
   io = socketio.listen(server)
   io.configure ->
     io.set "transports", ["xhr-polling"]
